@@ -10,9 +10,12 @@ export const appRoutes: Routes = [
     {
         path: '',
         component: AppLayout,
-        canActivate: [authGuard],
+        //canActivate: [authGuard],
         children: [
             { path: '', component: Dashboard },
+            { path: 'funcionarios', loadComponent: () => import('./app/pages/funcionarios/funcionarios.component').then((m) => m.FuncionariosComponent) },
+            { path: 'clientes', loadComponent: () => import('./app/pages/clientes/clientes.component').then((m) => m.ClientesComponent) },
+            { path: 'pecas', loadComponent: () => import('./app/pages/pecas/pecas.component').then((m) => m.PecasComponent) },
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }

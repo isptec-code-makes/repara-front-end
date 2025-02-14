@@ -23,31 +23,30 @@ export class AppMenu {
             {
                 label: 'Home',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
-                    { label: 'Clientes', icon: 'pi pi-fw pi-users', routerLink: ['/clientes']
-
-                     }
-                ],
-                
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-building', routerLink: ['/'] },
+                    { label: 'Clientes', icon: 'pi pi-fw pi-user', routerLink: ['/clientes'] },
+                    { label: 'Funcionarios', icon: 'pi pi-fw pi-briefcase', routerLink: ['/funcionarios'] },
+                    { label: 'Peças', icon: 'pi pi-fw pi-cog', routerLink: ['/pecas'] }
+                ]
             },
             {
                 label: 'UI Components',
                 items: [
-                    { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
-                    { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
-                    { label: 'Button', icon: 'pi pi-fw pi-mobile', class: 'rotated-icon', routerLink: ['/uikit/button'] },
+                    { label: 'Form Layout', icon: 'pi pi-fw pi-file-edit', routerLink: ['/uikit/formlayout'] },
+                    { label: 'Input', icon: 'pi pi-fw pi-check', routerLink: ['/uikit/input'] },
+                    { label: 'Button', icon: 'pi pi-fw pi-keyboard', class: 'rotated-icon', routerLink: ['/uikit/button'] },
                     { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/table'] },
-                    { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/uikit/list'] },
-                    { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/uikit/tree'] },
-                    { label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/uikit/panel'] },
-                    { label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/uikit/overlay'] },
-                    { label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/uikit/media'] },
-                    { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/uikit/menu'] },
-                    { label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
-                    { label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/uikit/file'] },
-                    { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/charts'] },
-                    { label: 'Timeline', icon: 'pi pi-fw pi-calendar', routerLink: ['/uikit/timeline'] },
-                    { label: 'Misc', icon: 'pi pi-fw pi-circle', routerLink: ['/uikit/misc'] }
+                    { label: 'List', icon: 'pi pi-fw pi-th-large', routerLink: ['/uikit/list'] },
+                    { label: 'Tree', icon: 'pi pi-fw pi-sitemap', routerLink: ['/uikit/tree'] },
+                    { label: 'Panel', icon: 'pi pi-fw pi-window-maximize', routerLink: ['/uikit/panel'] },
+                    { label: 'Overlay', icon: 'pi pi-fw pi-copy', routerLink: ['/uikit/overlay'] },
+                    { label: 'Media', icon: 'pi pi-fw pi-images', routerLink: ['/uikit/media'] },
+                    { label: 'Menu', icon: 'pi pi-fw pi-ellipsis-v', routerLink: ['/uikit/menu'] },
+                    { label: 'Message', icon: 'pi pi-fw pi-comment-dots', routerLink: ['/uikit/message'] },
+                    { label: 'File', icon: 'pi pi-fw pi-file-o', routerLink: ['/uikit/file'] },
+                    { label: 'Chart', icon: 'pi pi-fw pi-chart-line', routerLink: ['/uikit/charts'] },
+                    { label: 'Timeline', icon: 'pi pi-fw pi-calendar-check', routerLink: ['/uikit/timeline'] },
+                    { label: 'Misc', icon: 'pi pi-fw pi-cog', routerLink: ['/uikit/misc'] }
                 ]
             },
             {
@@ -62,16 +61,16 @@ export class AppMenu {
                     },
                     {
                         label: 'Auth',
-                        icon: 'pi pi-fw pi-user',
+                        icon: 'pi pi-fw pi-user-edit',
                         items: [
                             {
                                 label: 'Login',
-                                icon: 'pi pi-fw pi-sign-in',
+                                icon: 'pi pi-fw pi-sign-in-alt',
                                 routerLink: ['/auth/login']
                             },
                             {
                                 label: 'Error',
-                                icon: 'pi pi-fw pi-times-circle',
+                                icon: 'pi pi-fw pi-ban',
                                 routerLink: ['/auth/error']
                             },
                             {
@@ -83,17 +82,17 @@ export class AppMenu {
                     },
                     {
                         label: 'Crud',
-                        icon: 'pi pi-fw pi-pencil',
+                        icon: 'pi pi-fw pi-edit',
                         routerLink: ['/pages/crud']
                     },
                     {
                         label: 'Not Found',
-                        icon: 'pi pi-fw pi-exclamation-circle',
+                        icon: 'pi pi-fw pi-exclamation-triangle',
                         routerLink: ['/pages/notfound']
                     },
                     {
                         label: 'Empty',
-                        icon: 'pi pi-fw pi-circle-off',
+                        icon: 'pi pi-fw pi-info-circle',
                         routerLink: ['/pages/empty']
                     }
                 ]
@@ -103,40 +102,40 @@ export class AppMenu {
                 items: [
                     {
                         label: 'Submenu 1',
-                        icon: 'pi pi-fw pi-bookmark',
+                        icon: 'pi pi-fw pi-folder',
                         items: [
                             {
                                 label: 'Submenu 1.1',
-                                icon: 'pi pi-fw pi-bookmark',
+                                icon: 'pi pi-fw pi-folder-open',
                                 items: [
-                                    { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                    { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                    { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' }
+                                    { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-folder' },
+                                    { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-folder' },
+                                    { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-folder' }
                                 ]
                             },
                             {
                                 label: 'Submenu 1.2',
-                                icon: 'pi pi-fw pi-bookmark',
-                                items: [{ label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' }]
+                                icon: 'pi pi-fw pi-folder',
+                                items: [{ label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-folder' }]
                             }
                         ]
                     },
                     {
                         label: 'Submenu 2',
-                        icon: 'pi pi-fw pi-bookmark',
+                        icon: 'pi pi-fw pi-folder',
                         items: [
                             {
                                 label: 'Submenu 2.1',
-                                icon: 'pi pi-fw pi-bookmark',
+                                icon: 'pi pi-fw pi-folder-open',
                                 items: [
-                                    { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                    { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' }
+                                    { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-folder' },
+                                    { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-folder' }
                                 ]
                             },
                             {
                                 label: 'Submenu 2.2',
-                                icon: 'pi pi-fw pi-bookmark',
-                                items: [{ label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' }]
+                                icon: 'pi pi-fw pi-folder',
+                                items: [{ label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-folder' }]
                             }
                         ]
                     }
@@ -147,7 +146,7 @@ export class AppMenu {
                 items: [
                     {
                         label: 'Documentation',
-                        icon: 'pi pi-fw pi-book',
+                        icon: 'pi pi-fw pi-info-circle',
                         routerLink: ['/documentation']
                     },
                     {

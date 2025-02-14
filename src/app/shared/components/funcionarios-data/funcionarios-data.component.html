@@ -1,0 +1,99 @@
+<p-toolbar styleClass="mb-6">
+    <ng-template #start>
+        <p-button label="Adicioar" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+    </ng-template>
+
+    <ng-template #end>
+        <!--
+            <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+        -->
+    </ng-template>
+</p-toolbar>
+
+<p-table
+    #table
+    [columns]="columns"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    (onLazyLoad)="loadLazy($event)"
+    [currentPageReportTemplate]="currentPageReportTemplate"
+    [lazy]="true"
+    [loading]="loading"
+    [paginator]="true"
+    [rowHover]="true"
+    [rowsPerPageOptions]="rowsPerPageOptions"
+    [rows]="pageSize"
+    [showCurrentPageReport]="true"
+    [showLoader]="false"
+    [totalRecords]="totalCount"
+    [value]="data"
+    dataKey="id"
+    selectionMode="multiple"
+    responsiveLayout="stack"
+    [sortOrder]="0"
+    [breakpoint]="'960px'"
+    styleClass="p-datatable-striped"
+>
+    <ng-template #caption>
+        <div class="flex items-center justify-between">
+            <h5 class="m-0">Gerir Funcionarios</h5>
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Pesquisar..." />
+            </p-iconfield>
+        </div>
+    </ng-template>
+    <ng-template #header let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{ col.header }}
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                {{ rowData[col.field] }}
+            </td>
+            <td>
+                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editFuncionario(rowData)" />
+                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteFuncionario(rowData)" />
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="funcionarioDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true">
+    <ng-template #content>
+        <div class="flex flex-col gap-6">
+            <div>
+                <label for="nome" class="block font-bold mb-3">Nome</label>
+                <input type="text" pInputText id="nome" [(ngModel)]="funcionario.nome" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !funcionario.nome">Nome is required.</small>
+            </div>
+            <div>
+                <label for="email" class="block font-bold mb-3">Email</label>
+                <input type="email" pInputText id="email" [(ngModel)]="funcionario.email" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !funcionario.email">Email is required.</small>
+            </div>
+            <div>
+                <label for="telefone" class="block font-bold mb-3">Telefone</label>
+                <input type="text" pInputText id="telefone" [(ngModel)]="funcionario.telefone" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !funcionario.telefone">Telefone is required.</small>
+            </div>
+            <div>
+                <label for="especialidades" class="block font-bold mb-3">Especialidades</label>
+                <input type="text" pInputText id="especialidades" [(ngModel)]="funcionario.especialidades" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !funcionario.especialidades">Especialidades is required.</small>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #footer>
+        <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+        <p-button label="Salvar" icon="pi pi-check" (click)="saveFuncionario()" />
+    </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />
+<p-toast />

@@ -15,44 +15,42 @@ import { metaReducers, reducers } from './app/Core/store/reducers';
 
 export const appConfig: ApplicationConfig = {
     providers: [
-      provideRouter(
-        appRoutes, 
-        withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }), 
-        withEnabledBlockingInitialNavigation()
-      ),
-      provideHttpClient(
-        withFetch(), 
-        withInterceptors([authorizationInterceptor])
-      ),
-      appInitializer,
-      provideStore(reducers, {
-        metaReducers
-      }),
+        provideRouter(appRoutes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }), withEnabledBlockingInitialNavigation()),
+        provideHttpClient(
+            withFetch(),
+            withInterceptors([
+                /* authorizationInterceptor*/
+            ])
+        ),
+        ConfigService,
+        appInitializer,
+        /*
+        provideStore(reducers, {
+            metaReducers
+        }),
+        */
         provideAnimationsAsync(),
-        providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
+        providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } })
+        /*
         {
             provide: 'SocialAuthServiceConfig',
             useValue: {
-              autoLogin: false,
-              providers: [
-                {
-                  id: GoogleLoginProvider.PROVIDER_ID,
-                  provider: new GoogleLoginProvider(
-                    environment.socialLogin.google.clientId
-                  ),
-                },
-                {
-                  id: FacebookLoginProvider.PROVIDER_ID,
-                  provider: new FacebookLoginProvider(
-                    environment.socialLogin.facebook.clientId
-                  ),
-                },
-              ],
-              onError: err => {
-                console.error(err);
-              },
-            } as SocialAuthServiceConfig,
-          },
-          ConfigService
+                autoLogin: false,
+                providers: [
+                    {
+                        id: GoogleLoginProvider.PROVIDER_ID,
+                        provider: new GoogleLoginProvider(environment.socialLogin.google.clientId)
+                    },
+                    {
+                        id: FacebookLoginProvider.PROVIDER_ID,
+                        provider: new FacebookLoginProvider(environment.socialLogin.facebook.clientId)
+                    }
+                ],
+                onError: (err) => {
+                    console.error(err);
+                }
+            } as SocialAuthServiceConfig
+        },
+        */
     ]
 };

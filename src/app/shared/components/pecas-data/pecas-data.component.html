@@ -1,0 +1,109 @@
+<p-toolbar styleClass="mb-6">
+    <ng-template #start>
+        <p-button label="Adicioar" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+    </ng-template>
+
+    <ng-template #end>
+        <!--
+            <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+        -->
+    </ng-template>
+</p-toolbar>
+
+<p-table
+    #table
+    [columns]="columns"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    (onLazyLoad)="loadLazy($event)"
+    [currentPageReportTemplate]="currentPageReportTemplate"
+    [lazy]="true"
+    [loading]="loading"
+    [paginator]="true"
+    [rowHover]="true"
+    [rowsPerPageOptions]="rowsPerPageOptions"
+    [rows]="pageSize"
+    [showCurrentPageReport]="true"
+    [showLoader]="false"
+    [totalRecords]="totalCount"
+    [value]="data"
+    dataKey="id"
+    selectionMode="multiple"
+    responsiveLayout="stack"
+    [sortOrder]="0"
+    [breakpoint]="'960px'"
+    styleClass="p-datatable-striped"
+>
+    <ng-template #caption>
+        <div class="flex items-center justify-between">
+            <h5 class="m-0">Gerir Pecas</h5>
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Pesquisar..." />
+            </p-iconfield>
+        </div>
+    </ng-template>
+    <ng-template #header let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{ col.header }}
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                {{ rowData[col.field] }}
+            </td>
+            <td>
+                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editPeca(rowData)" />
+                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deletePeca(rowData)" />
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="pecaDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true">
+    <ng-template #content>
+        <div class="flex flex-col gap-6">
+            <div>
+                <label for="designacao" class="block font-bold mb-3">Designacao</label>
+                <input type="text" pInputText id="designacao" [(ngModel)]="peca.designacao" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !peca.designacao">Designacao is required.</small>
+            </div>
+            <div>
+                <label for="preco" class="block font-bold mb-3">Preço</label>
+                <input type="number" pInputText id="preco" [(ngModel)]="peca.preco" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !peca.preco">Preço is required.</small>
+            </div>
+            <div>
+                <label for="marca" class="block font-bold mb-3">Marca</label>
+                <input type="text" pInputText id="marca" [(ngModel)]="peca.marca" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !peca.marca">Modelo is required.</small>
+            </div>
+            <div>
+                <label for="modelo" class="block font-bold mb-3">Modelo</label>
+                <input type="text" pInputText id="modelo" [(ngModel)]="peca.modelo" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !peca.modelo">Modelo is required.</small>
+            </div>
+            <div>
+                <label for="categoria" class="block font-bold mb-3">Categoria</label>
+                <p-select appendTo="body" id="categoria" [(ngModel)]="peca.categoria" [options]="categorias" optionLabel="description" optionValue="id" fluid placeholder="Select a City" class="w-full" />
+                <small class="text-red-500" *ngIf="submitted && !peca.categoria">Categoria is required.</small>
+            </div>
+            <div>
+                <label for="estoque" class="block font-bold mb-3">Estoque</label>
+                <input type="number" pInputText id="estoque" [(ngModel)]="peca.estoque" required autofocus fluid />
+                <small class="text-red-500" *ngIf="submitted && !peca.estoque">Estoque is required.</small>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #footer>
+        <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+        <p-button label="Salvar" icon="pi pi-check" (click)="savePeca()" />
+    </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />
+<p-toast />
