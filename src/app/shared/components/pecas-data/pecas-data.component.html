@@ -88,7 +88,7 @@
             </div>
             <div>
                 <label for="categoria" class="block font-bold mb-3">Categoria</label>
-                <p-select appendTo="body" id="categoria" [(ngModel)]="peca.categoria" [options]="categorias" optionLabel="description" optionValue="id" fluid placeholder="Select a City" class="w-full" />
+                <p-select appendTo="body" id="categoria" [(ngModel)]="peca.categoria" [options]="categorias" optionLabel="description" optionValue="id" fluid placeholder="Selecione a categoria" class="w-full" />
                 <small class="text-red-500" *ngIf="submitted && !peca.categoria">Categoria is required.</small>
             </div>
             <div>

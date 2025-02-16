@@ -71,7 +71,7 @@ export abstract class BaseService<TClass, TFilter extends BaseFilter> {
             );
     }
 
-    public getById(id: number | string): Observable<TClass | null> {
+    public getById(id: number | string): Observable<TClass> {
         return this.http.get<TClass>(`${this.apiUrl}${this.controller}/${id}`);
     }
 

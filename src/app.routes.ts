@@ -16,6 +16,8 @@ export const appRoutes: Routes = [
             { path: 'funcionarios', loadComponent: () => import('./app/pages/funcionarios/funcionarios.component').then((m) => m.FuncionariosComponent) },
             { path: 'clientes', loadComponent: () => import('./app/pages/clientes/clientes.component').then((m) => m.ClientesComponent) },
             { path: 'pecas', loadComponent: () => import('./app/pages/pecas/pecas.component').then((m) => m.PecasComponent) },
+            { path: 'solicitacoes', loadComponent: () => import('./app/pages/solicitacaos/solicitacaos.component').then((m) => m.SolicitacaosComponent) },
+            { path: 'solicitacoes/:id', loadComponent: () => import('./app/pages/solicitacao/solicitacao.component').then((m) => m.SolicitacaoComponent) },
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }

@@ -26,7 +26,8 @@ export class AppMenu {
                     { label: 'Dashboard', icon: 'pi pi-fw pi-building', routerLink: ['/'] },
                     { label: 'Clientes', icon: 'pi pi-fw pi-user', routerLink: ['/clientes'] },
                     { label: 'Funcionarios', icon: 'pi pi-fw pi-briefcase', routerLink: ['/funcionarios'] },
-                    { label: 'Peças', icon: 'pi pi-fw pi-cog', routerLink: ['/pecas'] }
+                    { label: 'Peças', icon: 'pi pi-fw pi-cog', routerLink: ['/pecas'] },
+                    { label: 'Solicitações', icon: 'pi pi-fw pi-cog', routerLink: ['/solicitacoes'] }
                 ]
             },
             {
