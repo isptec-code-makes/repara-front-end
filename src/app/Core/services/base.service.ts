@@ -14,7 +14,7 @@ import { ConfigService } from './config.service';
 export abstract class BaseService<TClass, TFilter extends BaseFilter> {
     protected abstract attachHttpParams(filter?: TFilter): HttpParams;
 
-    private httpRequestRetry: number;
+    protected httpRequestRetry: number;
     private readonly router = inject(Router);
     private readonly configService = inject(ConfigService);
 
@@ -99,7 +99,7 @@ export abstract class BaseService<TClass, TFilter extends BaseFilter> {
         return params;
     }
 
-    private handleError(error: HttpErrorResponse) {
+    protected handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {
             // Client-side or network error
             return throwError(() => ({

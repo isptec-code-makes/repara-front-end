@@ -5,6 +5,7 @@ import { SolicitacaoService } from '../../Core/services/solicitacao.service';
 import { JsonPipe } from '@angular/common';
 import { TabsModule } from 'primeng/tabs';
 import { Timeline } from 'primeng/timeline';
+import { EquipamentosDataComponent } from '../../shared/components/equipamentos-data/equipamentos-data.component';
 
 interface EventItem {
     status?: string;
@@ -16,12 +17,13 @@ interface EventItem {
 
 @Component({
     selector: 'app-solicitacao',
-    imports: [JsonPipe, TabsModule, Timeline],
+    imports: [JsonPipe, TabsModule, Timeline, EquipamentosDataComponent],
     templateUrl: './solicitacao.component.html',
     styleUrl: './solicitacao.component.scss'
 })
 export class SolicitacaoComponent implements OnInit {
     solicitacao: WritableSignal<Solicitacao> = signal({});
+    solicitacaoId = signal(0);
 
     events: EventItem[];
 
@@ -43,6 +45,7 @@ export class SolicitacaoComponent implements OnInit {
 
         if (Number.isInteger(id)) {
             this.loadSolicitacao(Number(id));
+            this.solicitacaoId.set(id);
         } else {
             this.router.navigate(['/notfound']);
         }
