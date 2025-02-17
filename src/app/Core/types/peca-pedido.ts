@@ -3,13 +3,16 @@ import { Montagem } from './montagem';
 import { BaseFilter } from './filters/base-filter';
 
 export interface PecaPedido {
-    preco: number | null;
-    pecaId: number;
-    peca: Peca;
-    montagem: Montagem;
-    montagemId: number;
-    dateProcessed: string | null;
-    estado: PecaPedidoEstado;
+    id?: number;
+    createdOn?: string;
+    updatedOn?: string;
+    preco?: number;
+    pecaId?: number;
+    peca?: Peca;
+    montagem?: Montagem;
+    montagemId?: number;
+    dateProcessed?: string;
+    estado?: PecaPedidoEstado;
 }
 
 export interface PecaPedidoFilter extends BaseFilter {}

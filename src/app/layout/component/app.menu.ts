@@ -27,9 +27,11 @@ export class AppMenu {
                     { label: 'Clientes', icon: 'pi pi-fw pi-user', routerLink: ['/clientes'] },
                     { label: 'Funcionarios', icon: 'pi pi-fw pi-briefcase', routerLink: ['/funcionarios'] },
                     { label: 'Peças', icon: 'pi pi-fw pi-cog', routerLink: ['/pecas'] },
-                    { label: 'Solicitações', icon: 'pi pi-fw pi-cog', routerLink: ['/solicitacoes'] }
+                    { label: 'Solicitações', icon: 'pi pi-fw pi-cog', routerLink: ['/solicitacoes'] },
+                    { label: 'Compras', icon: 'pi pi-fw pi-cog', routerLink: ['/compras'] }
                 ]
-            },
+            }
+            /*
             {
                 label: 'UI Components',
                 items: [
@@ -50,6 +52,8 @@ export class AppMenu {
                     { label: 'Misc', icon: 'pi pi-fw pi-cog', routerLink: ['/uikit/misc'] }
                 ]
             },
+            */
+            /*
             {
                 label: 'Pages',
                 icon: 'pi pi-fw pi-briefcase',
@@ -142,6 +146,7 @@ export class AppMenu {
                     }
                 ]
             },
+            
             {
                 label: 'Get Started',
                 items: [
@@ -158,6 +163,7 @@ export class AppMenu {
                     }
                 ]
             }
+                */
         ];
     }
 }

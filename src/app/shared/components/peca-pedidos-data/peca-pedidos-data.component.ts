@@ -1,9 +1,7 @@
 import { Component, inject, OnInit, ViewChild, viewChild } from '@angular/core';
 import { ITableFilterComponent } from '../../../Core/interfaces/ITableFilterComponent';
-import { SolicitacaoEstados, SolicitacaoPrioridades, Solicitacao, SolicitacaoFilter } from '../../../Core/types/solicitacao';
 import { Table, TableModule } from 'primeng/table';
 import { TableColumn } from '../../../Core/interfaces/tableColumn';
-import { SolicitacaoService } from '../../../Core/services/solicitacao.service';
 import { ConfigService } from '../../../Core/services/config.service';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -26,13 +24,11 @@ import { TagModule } from 'primeng/tag';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { EnumData } from '../../../Core/interfaces/EnumData';
-import { Router } from '@angular/router';
-import { ClienteDetailComponent } from '../cliente-detail/cliente-detail.component';
-import { SolicitacaoEstadoComponent } from '../solicitacao-estado/solicitacao-estado.component';
-import { SolicitacaoPrioridadeComponent } from '../solicitacao-prioridade/solicitacao-prioridade.component';
+import { PecaPedido, PecaPedidoEstados, PecaPedidoFilter } from '../../../Core/types/peca-pedido';
+import { PecaPedidoService } from '../../../Core/services/peca-pedido.service';
 
 @Component({
-    selector: 'app-solicitacaos-data',
+    selector: 'app-peca-pedidos-data',
     imports: [
         CommonModule,
         TableModule,
@@ -51,24 +47,20 @@ import { SolicitacaoPrioridadeComponent } from '../solicitacao-prioridade/solici
         TagModule,
         InputIconModule,
         IconFieldModule,
-        ConfirmDialogModule,
-        TextareaModule,
-        ClienteDetailComponent,
-        SolicitacaoEstadoComponent,
-        SolicitacaoPrioridadeComponent
+        ConfirmDialogModule
     ],
-    templateUrl: './solicitacaos-data.component.html',
-    styleUrl: './solicitacaos-data.component.scss',
+    templateUrl: './peca-pedidos-data.component.html',
+    styleUrl: './peca-pedidos-data.component.scss',
     providers: [MessageService, ConfirmationService]
 })
-export class SolicitacaosDataComponent implements ITableFilterComponent<Solicitacao, SolicitacaoFilter>, OnInit {
+export class PecaPedidosDataComponent implements ITableFilterComponent<PecaPedido, PecaPedidoFilter>, OnInit {
     configService = inject(ConfigService);
 
     @ViewChild('table') table!: Table;
 
-    filter!: SolicitacaoFilter;
+    filter!: PecaPedidoFilter;
 
-    data: Array<Solicitacao> = [];
+    data: Array<PecaPedido> = [];
 
     columns!: Array<TableColumn>;
 
@@ -84,33 +76,32 @@ export class SolicitacaosDataComponent implements ITableFilterComponent<Solicita
     baseUrl = this.configService.getConfig.baseUrl;
 
     // métodos para o curd
-    solicitacaoDialog: boolean = false;
+    pecaPeidoDialog: boolean = false;
 
-    solicitacao!: Solicitacao;
+    pecaPeido!: PecaPedido;
 
     submitted: boolean = false;
 
     statuses!: any[];
 
     //////////
-    estados: Array<EnumData> = SolicitacaoEstados;
-    prioridades: Array<EnumData> = SolicitacaoPrioridades;
+    estados: Array<EnumData> = PecaPedidoEstados;
 
     constructor(
-        private solicitacaoService: SolicitacaoService,
+        private pecaPeidoService: PecaPedidoService,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService,
-        private router: Router
+        private confirmationService: ConfirmationService
     ) {}
 
     ngOnInit(): void {
         this.columns = [
-            { field: 'id', header: 'ID', sortable: true },
-            { field: 'clienteId', header: 'Cliente', sortable: true },
-            { field: 'prioridade', header: 'Prioridade', sortable: true },
-            { field: 'estado', header: 'Estado', sortable: true },
+            { field: 'id', header: '#', sortable: true },
+            { field: 'createdOn', header: 'Data Criação', sortable: true },
             { field: 'preco', header: 'Preço', sortable: true },
-            { field: 'createdOn', header: 'Data de criação', sortable: true }
+            { field: 'pecaId', header: 'Peça', sortable: true },
+            { field: 'montagemId', header: 'Montagem', sortable: true },
+            { field: 'dateProcessed', header: 'Data Processamento', sortable: true },
+            { field: 'estado', header: 'Estado', sortable: true }
         ];
     }
 
@@ -129,7 +120,7 @@ export class SolicitacaosDataComponent implements ITableFilterComponent<Solicita
             search: event.globalFilter
         };
 
-        this.solicitacaoService.getAll(this.filter).subscribe({
+        this.pecaPeidoService.getAll(this.filter).subscribe({
             next: (response) => {
                 console.log(response);
                 this.loadPaginationData(response);
@@ -143,7 +134,7 @@ export class SolicitacaosDataComponent implements ITableFilterComponent<Solicita
         });
     }
 
-    loadPaginationData(dataResponse: GetAllResponde<Solicitacao>) {
+    loadPaginationData(dataResponse: GetAllResponde<PecaPedido>) {
         this.pageSize = dataResponse.pageSize;
         this.currentPage = dataResponse.currentPage;
         this.totalCount = dataResponse.totalCount;
@@ -156,43 +147,33 @@ export class SolicitacaosDataComponent implements ITableFilterComponent<Solicita
 
     // métodos para o curd
 
-    detailSolicitacao(solicitacao: Solicitacao) {
-        this.router.navigate(['/solicitacoes', solicitacao.id]);
-    }
-
-    openNew() {
-        this.solicitacao = {};
-        this.submitted = false;
-        this.solicitacaoDialog = true;
-    }
-
-    editSolicitacao(solicitacao: Solicitacao) {
-        this.solicitacao = { ...solicitacao };
-        this.solicitacaoDialog = true;
+    editPecaPedido(pecaPeido: PecaPedido) {
+        this.pecaPeido = { ...pecaPeido };
+        this.pecaPeidoDialog = true;
     }
 
     hideDialog() {
-        this.solicitacaoDialog = false;
+        this.pecaPeidoDialog = false;
         this.submitted = false;
     }
 
-    deleteSolicitacao(solicitacao: Solicitacao) {
+    deletePecaPedido(pecaPeido: PecaPedido) {
         this.confirmationService.confirm({
-            message: 'tem a certeza que pretende excluir esta solicitação ?',
+            message: 'tem a certeza que pretende excluir ' + pecaPeido.id + '?',
             header: 'Confirmar',
             icon: 'pi pi-exclamation-triangle',
 
             accept: () => {
-                this.solicitacaoService.delete(Number(solicitacao.id)).subscribe({
+                this.pecaPeidoService.delete(Number(pecaPeido.id)).subscribe({
                     next: (response) => {
                         this.table.reset();
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Sucesso',
-                            detail: 'Solicitacao excluído',
+                            detail: 'PecaPedido excluído',
                             life: 3000
                         });
-                        this.solicitacao = {};
+                        this.pecaPeido = {};
                     },
                     error: (err: HttpErrorResponse) => {
                         this.messageService.add({
@@ -208,19 +189,19 @@ export class SolicitacaosDataComponent implements ITableFilterComponent<Solicita
         });
     }
 
-    saveSolicitacao() {
+    savePecaPedido() {
         this.submitted = true;
-        console.log(this.solicitacao);
+        console.log(this.pecaPeido);
 
-        if (this.solicitacao.descricaoProblema) {
-            if (this.solicitacao.id) {
-                this.solicitacaoService.update(this.solicitacao, Number(this.solicitacao.id)).subscribe({
+        if (this.pecaPeido.createdOn?.trim()) {
+            if (this.pecaPeido.id) {
+                this.pecaPeidoService.update(this.pecaPeido, Number(this.pecaPeido.id)).subscribe({
                     next: (response) => {
                         this.table.reset();
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Sucesso',
-                            detail: 'Solicitacao atualizado',
+                            detail: 'PecaPedido atualizado',
                             life: 3000
                         });
                     },
@@ -235,13 +216,13 @@ export class SolicitacaosDataComponent implements ITableFilterComponent<Solicita
                     }
                 });
             } else {
-                this.solicitacaoService.create(this.solicitacao).subscribe({
+                this.pecaPeidoService.create(this.pecaPeido).subscribe({
                     next: (response) => {
                         this.table.reset();
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Sucesso',
-                            detail: 'Solicitacao criado',
+                            detail: 'PecaPedido criado',
                             life: 3000
                         });
                     },
@@ -257,8 +238,8 @@ export class SolicitacaosDataComponent implements ITableFilterComponent<Solicita
                 });
             }
 
-            this.solicitacaoDialog = false;
-            this.solicitacao = {};
+            this.pecaPeidoDialog = false;
+            this.pecaPeido = {};
         }
     }
 }

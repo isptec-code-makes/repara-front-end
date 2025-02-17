@@ -1,1 +1,114 @@
-<app-montagems-data [equipamentoId]="equipamentoId" />
+<div class="grid grid-cols-3 gap-6">
+    <div>
+        <p-panel header="Equipamento" [collapsed]="false">
+            <div class="border-b last:border-none py-4">
+                <span class="text-base font-semibold">Id</span>
+                <p class="text-gray-500">{{ equipamento().id }}</p>
+            </div>
+
+            <div class="border-b last:border-none py-4">
+                <span class="font-semibold">Marca</span>
+                <p class="text-gray-500">{{ equipamento().marca }}</p>
+            </div>
+
+            <div class="border-b last:border-none py-4">
+                <span class="font-semibold">Modelo</span>
+                <p class="text-gray-500">{{ equipamento().modelo }}</p>
+            </div>
+
+            <div class="border-b last:border-none py-4">
+                <span class="font-semibold">Categoria</span>
+                <p class="text-gray-500">{{ equipamento().categoria }}</p>
+            </div>
+
+            <div class="border-b last:border-none py-4">
+                <span class="font-semibold">Data de registro</span>
+                <p class="text-gray-500">{{ equipamento().createdOn }}</p>
+            </div>
+
+            <div class="border-b last:border-none py-4">
+                <span class="font-semibold">Data de última actualização</span>
+                <p class="text-gray-500">{{ equipamento().updatedOn }}</p>
+            </div>
+
+            <div class="border-b last:border-none py-4">
+                <span class="font-semibold">Solicitação</span>
+                <p class="text-gray-500">{{ equipamento().solicitacaoId }}</p>
+            </div>
+        </p-panel>
+    </div>
+    <div class="flex flex-col col-span-2 gap-3">
+        <p-panel header="Diagnostico" [collapsed]="false">
+            @if (!diagnostico().funcionarioId) {
+                <div class="w-full h-48 flex items-center justify-center bg-gray-200 rounded-lg">
+                    <p class="text-center text-gray-700">Funcionário não atribuido</p>
+                </div>
+            } @else {
+                <div class="border-b last:border-none py-4">
+                    <span class="text-base font-semibold">Data de inicio</span>
+                    <p class="text-gray-500">{{ diagnostico().dateInit }}</p>
+                </div>
+
+                <div class="border-b last:border-none py-4">
+                    <span class="text-base font-semibold">Data de conclusão</span>
+                    <p class="text-gray-500">{{ diagnostico().dateEnd }}</p>
+                </div>
+
+                <div class="border-b last:border-none py-4">
+                    <span class="text-base font-semibold">Relatório</span>
+                    <p class="text-gray-500">{{ diagnostico().relatorio }}</p>
+                </div>
+
+                <div class="border-b last:border-none py-4">
+                    <span class="text-base font-semibold">Responsável</span>
+                    <p class="text-gray-500"></p>
+                </div>
+                <ng-template #footer>
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <app-servico-estado [estado]="diagnostico().estado" />
+                        @if (diagnostico().funcionarioId) {
+                            <app-funcionario-detail [funcionarioId]="diagnostico().funcionarioId" />
+                        } @else {
+                            Não atribuido
+                        }
+                        <div>
+                            <p-button
+                                [loading]="diagnosticoLoading"
+                                class="mr-2"
+                                *ngIf="diagnostico().estado == servicosEstados.Pendente"
+                                (click)="actualizarDiagnosticoEstado(servicosEstados.Iniciado)"
+                                label="Iniciar"
+                                icon="pi pi-play"
+                                severity="info"
+                            />
+                            <p-button [loading]="diagnosticoLoading" class="mr-2" *ngIf="diagnostico().estado == servicosEstados.Iniciado" (click)="openDialog(servicosEstados.Terminado)" label="Terminar" icon="pi pi-check" severity="success" />
+                            <p-button [loading]="diagnosticoLoading" *ngIf="diagnostico().estado == servicosEstados.Iniciado" (click)="openDialog(servicosEstados.Cancelado)" label="Cancelar" icon="pi pi-times" severity="danger" />
+                        </div>
+                    </div>
+                </ng-template>
+            }
+        </p-panel>
+
+        <p-blockui [target]="montagems" [blocked]="diagnostico().estado == servicosEstados.Pendente" />
+
+        <p-panel #montagems header="Montagens" [collapsed]="false">
+            <app-montagems-data #montagems [equipamentoId]="equipamentoId" />
+        </p-panel>
+    </div>
+</div>
+
+<p-dialog [(visible)]="relatorioDialog" [style]="{ width: '450px' }" header="Finalizar serviço" [modal]="true">
+    <ng-template #content>
+        <div class="flex flex-col gap-6">
+            <div>
+                <label for="relatorio" class="block font-bold mb-3">Relatorio</label>
+                <textarea fluid id="relatorio" rows="5" cols="30" pTextarea required [(ngModel)]="relatorio"></textarea>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #footer>
+        <p-button label="Cancelar" icon="pi pi-times" text (click)="cancelRelatorio()" />
+        <p-button label="Salvar" icon="pi pi-check" (click)="atualizarRelatorio()" />
+    </ng-template>
+</p-dialog>

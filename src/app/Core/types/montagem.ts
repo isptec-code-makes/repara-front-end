@@ -1,7 +1,7 @@
 import { Peca } from './peca';
 import { Equipamento } from './equipamento';
 import { Servico } from './servico';
-import { PecaPedido } from './pecaPedido';
+import { PecaPedido } from './peca-pedido';
 import { BaseFilter } from './filters/base-filter';
 
 export interface Montagem extends Servico {

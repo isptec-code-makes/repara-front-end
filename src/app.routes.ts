@@ -19,6 +19,7 @@ export const appRoutes: Routes = [
             { path: 'solicitacoes', loadComponent: () => import('./app/pages/solicitacaos/solicitacaos.component').then((m) => m.SolicitacaosComponent) },
             { path: 'solicitacoes/:id', loadComponent: () => import('./app/pages/solicitacao/solicitacao.component').then((m) => m.SolicitacaoComponent) },
             { path: 'equipamentos/:id', loadComponent: () => import('./app/pages/equipamento/equipamento.component').then((m) => m.EquipamentoComponent) },
+            { path: 'compras', loadComponent: () => import('./app/pages/compras/compras.component').then((m) => m.ComprasComponent) },
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }

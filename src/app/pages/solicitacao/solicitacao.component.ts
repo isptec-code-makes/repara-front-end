@@ -4,8 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SolicitacaoService } from '../../Core/services/solicitacao.service';
 import { JsonPipe } from '@angular/common';
 import { TabsModule } from 'primeng/tabs';
+import { PanelModule } from 'primeng/panel';
 import { Timeline } from 'primeng/timeline';
 import { EquipamentosDataComponent } from '../../shared/components/equipamentos-data/equipamentos-data.component';
+import { SolicitacaoPrioridadeComponent } from '../../shared/components/solicitacao-prioridade/solicitacao-prioridade.component';
+import { SolicitacaoEstadoComponent } from '../../shared/components/solicitacao-estado/solicitacao-estado.component';
+import { FuncionarioDetailComponent } from '../../shared/components/funcionario-detail/funcionario-detail.component';
+import { ButtonModule } from 'primeng/button';
 
 interface EventItem {
     status?: string;
@@ -17,7 +22,7 @@ interface EventItem {
 
 @Component({
     selector: 'app-solicitacao',
-    imports: [JsonPipe, TabsModule, Timeline, EquipamentosDataComponent],
+    imports: [JsonPipe, TabsModule, Timeline, EquipamentosDataComponent, PanelModule, SolicitacaoPrioridadeComponent, SolicitacaoEstadoComponent, FuncionarioDetailComponent, ButtonModule],
     templateUrl: './solicitacao.component.html',
     styleUrl: './solicitacao.component.scss'
 })

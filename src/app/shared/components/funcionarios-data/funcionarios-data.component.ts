@@ -25,6 +25,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
+import { FuncionarioEstadoComponent } from '../funcionario-estado/funcionario-estado.component';
 
 @Component({
     selector: 'app-funcionarios-data',
@@ -46,7 +47,8 @@ import { IconFieldModule } from 'primeng/iconfield';
         TagModule,
         InputIconModule,
         IconFieldModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        FuncionarioEstadoComponent
     ],
     templateUrl: './funcionarios-data.component.html',
     styleUrl: './funcionarios-data.component.scss',

@@ -3,11 +3,11 @@ import { Funcionario } from './funcionario';
 
 export interface Servico {
     especialidade?: string;
-    dateInit?: string | null;
-    dateEnd?: string | null;
+    dateInit?: string;
+    dateEnd?: string;
     relatorio?: string | null;
-    funcionarioId?: number | null;
-    funcionario?: Funcionario | null;
+    funcionarioId?: number;
+    funcionario?: Funcionario;
     estado?: ServicoEstado;
 }
 

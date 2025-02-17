@@ -27,6 +27,10 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { MontagemService } from '../../../Core/services/montagem.service';
 import { PecaService } from '../../../Core/services/peca.service';
 import { Peca } from '../../../Core/types/peca';
+import { FuncionarioDetailComponent } from '../funcionario-detail/funcionario-detail.component';
+import { PecaDetailComponent } from '../peca-detail/peca-detail.component';
+import { ServicoEstado } from '../../../Core/types/servico';
+import { ServicoEstadoComponent } from '../servico-estado/servico-estado.component';
 
 @Component({
     selector: 'app-montagems-data',
@@ -48,7 +52,10 @@ import { Peca } from '../../../Core/types/peca';
         TagModule,
         InputIconModule,
         IconFieldModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        FuncionarioDetailComponent,
+        PecaDetailComponent,
+        ServicoEstadoComponent
     ],
     templateUrl: './montagems-data.component.html',
     styleUrl: './montagems-data.component.scss',
@@ -89,6 +96,14 @@ export class MontagemsDataComponent implements ITableFilterComponent<Montagem, M
 
     statuses!: any[];
 
+    //
+    estadoLoading: boolean = false;
+
+    servicosEstados = ServicoEstado;
+
+    relatorio!: string;
+    relatorioDialog: boolean = false;
+
     constructor(
         private montagemService: MontagemService,
         private messageService: MessageService,
@@ -99,8 +114,9 @@ export class MontagemsDataComponent implements ITableFilterComponent<Montagem, M
     ngOnInit(): void {
         this.columns = [
             { field: 'id', header: '#', sortable: true },
-            { field: 'createdOn', header: 'Data de Criação', sortable: true },
-            { field: 'updatedOn', header: 'Data de Atualização', sortable: true }
+            { field: 'dateInit', header: 'Data de inicialização', sortable: true },
+            { field: 'dateEnd', header: 'Data de finalização', sortable: true },
+            { field: 'createdOn', header: 'Data de Criação', sortable: true }
         ];
 
         this.pecaService.getAll({}).subscribe({
@@ -135,6 +151,7 @@ export class MontagemsDataComponent implements ITableFilterComponent<Montagem, M
         this.montagemService.getAll(this.filter).subscribe({
             next: (response) => {
                 this.loadPaginationData(response);
+                console.log(response);
                 this.loading = false;
             },
             error: (err: HttpErrorResponse) => {
@@ -208,6 +225,7 @@ export class MontagemsDataComponent implements ITableFilterComponent<Montagem, M
 
     saveMontagem() {
         this.submitted = true;
+        this.relatorioDialog = false;
         console.log(this.montagem);
 
         if (this.montagem.pecaId) {
@@ -261,6 +279,35 @@ export class MontagemsDataComponent implements ITableFilterComponent<Montagem, M
             this.montagemDialog = false;
             this.montagem = {};
         }
+    }
+
+    // métodos para o estado
+
+    actualizarMontagemEstado(montagem: Montagem, estado: ServicoEstado) {
+        montagem.estado = estado;
+
+        this.estadoLoading = true;
+        this.montagemService.update(montagem, Number(montagem.id)).subscribe({
+            next: (diagnostico) => {
+                this.table.reset();
+                this.estadoLoading = false;
+            },
+            error: (error) => {
+                console.error(error);
+                this.estadoLoading = false;
+            }
+        });
+    }
+
+    hideRelatorioDialog() {
+        this.relatorio = '';
+        this.relatorioDialog = false;
+    }
+
+    openRelatorioDialog(montagem: Montagem, estado: ServicoEstado) {
+        this.montagem = { ...montagem };
+        this.montagem.estado = estado;
+        this.relatorioDialog = true;
     }
 
     // métodos para as peças

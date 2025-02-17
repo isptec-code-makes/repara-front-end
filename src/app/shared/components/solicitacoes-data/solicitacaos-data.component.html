@@ -53,7 +53,23 @@
     <ng-template #body let-rowData let-columns="columns">
         <tr>
             <td *ngFor="let col of columns">
-                {{ rowData[col.field] }}
+                @if (col.field == 'clienteId') {
+                    <app-cliente-detail [clienteId]="rowData[col.field]" />
+                } @else {
+                    @if (col.field == 'estado') {
+                        <app-solicitacao-estado [estado]="rowData[col.field]" />
+                    } @else {
+                        @if (col.field == 'preco') {
+                            {{ rowData[col.field] | currency: 'AOA ' }}
+                        } @else {
+                            @if (col.field == 'prioridade') {
+                                <app-solicitacao-prioridade [prioridade]="rowData[col.field]" />
+                            } @else {
+                                {{ rowData[col.field] }}
+                            }
+                        }
+                    }
+                }
             </td>
             <td>
                 <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editSolicitacao(rowData)" />

@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Equipamento, EquipamentoFilter } from '../types/equipamento';
-import { Diagnostico } from '../types/diagnostico';
-import { Observable } from 'rxjs';
+import { PecaPedido, PecaPedidoFilter } from '../types/peca-pedido';
 
 @Injectable({
     providedIn: 'root'
 })
-export class EquipamentoService extends BaseService<Equipamento, EquipamentoFilter> {
+export class PecaPedidoService extends BaseService<PecaPedido, PecaPedidoFilter> {
     constructor(protected override http: HttpClient) {
-        super(http, 'equipamentos');
+        super(http, 'peca-pedidos');
     }
 
-    public getDiagnostico(id: number): Observable<Diagnostico> {
-        return this.http.get<Diagnostico>(`${this.apiUrl}${this.controller}/${id}/diagnostico`);
-    }
-
-    protected override attachHttpParams(filter: EquipamentoFilter): HttpParams {
+    protected override attachHttpParams(filter: PecaPedidoFilter): HttpParams {
         let params = filter ? this.attachBaseHttpParams(filter) : new HttpParams();
 
         Object.entries(filter).forEach(([key, value]) => {

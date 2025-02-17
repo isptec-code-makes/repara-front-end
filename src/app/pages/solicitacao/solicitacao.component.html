@@ -1,32 +1,78 @@
 {{ solicitacao() | json }}
 
-<div class="grid grid-cols-3 gap-4">
+<div class="grid grid-cols-3 gap-8">
     <div class="">
-        <p-timeline [value]="events">
-            <ng-template #opposite let-event>
-                <small class="text-surface-500 dark:text-surface-400">{{ event.date }}</small>
+        <p-panel header="Solicitação" [collapsed]="false">
+            <div class="border-b last:border-none py-4">
+                <span class="text-base font-semibold">#</span>
+                <p class="text-gray-500">{{ solicitacao().id }}</p>
+            </div>
+
+            <div class="border-b last:border-none py-4">
+                <span class="font-semibold">Data de criação</span>
+                <p class="text-gray-500">{{ solicitacao().createdOn }}</p>
+            </div>
+
+            <div class="border-b last:border-none py-4">
+                <span class="font-semibold">Prioridade</span>
+                <p><app-solicitacao-prioridade [prioridade]="solicitacao().prioridade" /></p>
+            </div>
+
+            <div class="border-b last:border-none py-4">
+                <span class="font-semibold">A pagar</span>
+                <p class="text-gray-500">{{ solicitacao().preco }} AOA</p>
+            </div>
+
+            <div class="border-b last:border-none py-4">
+                <span class="font-semibold">Descricao do problema</span>
+                <p class="text-gray-500">{{ solicitacao().descricaoProblema }}</p>
+            </div>
+
+            <ng-template #footer>
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <app-solicitacao-estado [estado]="solicitacao().estado" />
+
+                    @if (solicitacao().funcionarioId) {
+                        <app-funcionario-detail [funcionarioId]="solicitacao().funcionarioId" />
+                    } @else {
+                        Não atribuido
+                    }
+
+                    <div>
+                        <!--
+                        <p-button
+                            [loading]="diagnosticoLoading"
+                            class="mr-2"
+                            *ngIf="diagnostico().estado == servicosEstados.Pendente"
+                            (click)="actualizarDiagnosticoEstado(servicosEstados.Iniciado)"
+                            label="Iniciar"
+                            icon="pi pi-play"
+                            severity="info"
+                        />
+                        <p-button [loading]="diagnosticoLoading" class="mr-2" *ngIf="diagnostico().estado == servicosEstados.Iniciado" (click)="openDialog(servicosEstados.Terminado)" label="Terminar" icon="pi pi-check" severity="success" />
+                        <p-button [loading]="diagnosticoLoading" *ngIf="diagnostico().estado == servicosEstados.Iniciado" (click)="openDialog(servicosEstados.Cancelado)" label="Cancelar" icon="pi pi-times" severity="danger" />
+                        -->
+                    </div>
+                </div>
             </ng-template>
-            <ng-template #content let-event>
-                {{ event.status }}
-            </ng-template>
-        </p-timeline>
+        </p-panel>
     </div>
 
     <div class="col-span-2">
         <p-tabs value="0">
             <p-tablist>
-                <p-tab value="0">Estatisticas</p-tab>
-                <p-tab value="1">Equipamentos</p-tab>
+                <p-tab value="0">Equipamentos</p-tab>
+                <p-tab value="1">Estatisticas</p-tab>
             </p-tablist>
             <p-tabpanels>
                 <p-tabpanel value="0">
+                    <app-equipamentos-data [solicitacaoId]="solicitacaoId" />
+                </p-tabpanel>
+                <p-tabpanel value="1">
                     <p class="m-0">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </p>
-                </p-tabpanel>
-                <p-tabpanel value="1">
-                    <app-equipamentos-data [solicitacaoId]="solicitacaoId" />
                 </p-tabpanel>
             </p-tabpanels>
         </p-tabs>

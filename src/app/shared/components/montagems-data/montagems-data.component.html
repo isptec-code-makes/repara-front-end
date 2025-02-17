@@ -47,17 +47,50 @@
             <th *ngFor="let col of columns">
                 {{ col.header }}
             </th>
+            <th>Peça</th>
+            <th>Responsável</th>
+            <th>Estado</th>
             <th></th>
         </tr>
     </ng-template>
     <ng-template #body let-rowData let-columns="columns">
         <tr>
             <td *ngFor="let col of columns">
-                {{ rowData[col.field] }}
+                @if (rowData[col.field]) {
+                    {{ rowData[col.field] }}
+                } @else {
+                    -
+                }
             </td>
             <td>
-                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editMontagem(rowData)" />
-                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteMontagem(rowData)" />
+                <app-peca-detail [pecaId]="rowData.pecaId" />
+            </td>
+            <td>
+                @if (rowData.funcionarioId) {
+                    <app-funcionario-detail [funcionarioId]="rowData.funcionarioId" />
+                } @else {
+                    Não atribuido
+                }
+            </td>
+            <td>
+                <app-servico-estado [estado]="rowData.estado" />
+            </td>
+            <td>
+                <p-button icon="pi pi-pencil" class="mr-2" label="Editar" [outlined]="true" (click)="editMontagem(rowData)" />
+                <p-button icon="pi pi-trash" severity="danger" label="Deletar" [outlined]="true" (click)="deleteMontagem(rowData)" />
+
+                <p-button
+                    [disabled]="!rowData.funcionarioId"
+                    [loading]="estadoLoading"
+                    class="mr-2"
+                    *ngIf="rowData.estado == servicosEstados.Pendente"
+                    (click)="actualizarMontagemEstado(rowData, servicosEstados.Iniciado)"
+                    label="Iniciar"
+                    icon="pi pi-play"
+                    severity="info"
+                />
+                <p-button [loading]="estadoLoading" class="mr-2" *ngIf="rowData.estado == servicosEstados.Iniciado" (click)="openRelatorioDialog(rowData, servicosEstados.Terminado)" label="Terminar" icon="pi pi-check" severity="success" />
+                <p-button [loading]="estadoLoading" *ngIf="rowData.estado == servicosEstados.Iniciado" (click)="openRelatorioDialog(rowData, servicosEstados.Cancelado)" label="Cancelar" icon="pi pi-times" severity="danger" />
             </td>
         </tr>
     </ng-template>
@@ -68,7 +101,7 @@
         <div class="flex flex-col gap-6">
             <div>
                 <label for="peca" class="block font-bold mb-3">Peça</label>
-                <p-select [filter]="true" appendTo="body" id="peca" [(ngModel)]="montagem.pecaId" [options]="pecas()" optionLabel="modelo" optionValue="id" fluid placeholder="Selecione a peça a ser montada" class="w-full" />
+                <p-select [filter]="true" appendTo="body" id="peca" [(ngModel)]="montagem.pecaId" [options]="pecas()" optionLabel="designacao" optionValue="id" fluid placeholder="Selecione a peça a ser montada" class="w-full" />
                 <small class="text-red-500" *ngIf="submitted && !montagem.peca">Peça is required.</small>
             </div>
         </div>
@@ -76,6 +109,23 @@
 
     <ng-template #footer>
         <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+        <p-button label="Salvar" icon="pi pi-check" (click)="saveMontagem()" />
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="relatorioDialog" [style]="{ width: '450px' }" header="Finalizar serviço" [modal]="true">
+    <ng-template #content>
+        <div class="flex flex-col gap-6">
+            <div>
+                <label for="relatorio" class="block font-bold mb-3">Relatorio</label>
+                <textarea fluid id="relatorio" rows="5" cols="30" pTextarea required [(ngModel)]="montagem.relatorio"></textarea>
+                <small class="text-red-500" *ngIf="submitted && !montagem.relatorio"> Relatorio é obrigatória. </small>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #footer>
+        <p-button label="Cancelar" icon="pi pi-times" text (click)="hideRelatorioDialog()" />
         <p-button label="Salvar" icon="pi pi-check" (click)="saveMontagem()" />
     </ng-template>
 </p-dialog>

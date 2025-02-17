@@ -6,7 +6,7 @@ import { Diagnostico, DiagnosticoFilter } from '../types/diagnostico';
 @Injectable({
     providedIn: 'root'
 })
-export class ClienteService extends BaseService<Diagnostico, DiagnosticoFilter> {
+export class DiagnosticoService extends BaseService<Diagnostico, DiagnosticoFilter> {
     constructor(protected override http: HttpClient) {
         super(http, 'diagnosticos');
     }
