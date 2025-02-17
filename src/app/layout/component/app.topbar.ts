@@ -33,7 +33,7 @@ import { LayoutService } from '../service/layout.service';
                         />
                     </g>
                 </svg>
-                <span>REPA</span>
+                <span>REPARA</span>
             </a>
         </div>
 
