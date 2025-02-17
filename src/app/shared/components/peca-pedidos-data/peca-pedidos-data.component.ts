@@ -26,6 +26,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { EnumData } from '../../../Core/interfaces/EnumData';
 import { PecaPedido, PecaPedidoEstados, PecaPedidoFilter } from '../../../Core/types/peca-pedido';
 import { PecaPedidoService } from '../../../Core/services/peca-pedido.service';
+import { PecaDetailComponent } from '../peca-detail/peca-detail.component';
 
 @Component({
     selector: 'app-peca-pedidos-data',
@@ -47,7 +48,8 @@ import { PecaPedidoService } from '../../../Core/services/peca-pedido.service';
         TagModule,
         InputIconModule,
         IconFieldModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        PecaDetailComponent
     ],
     templateUrl: './peca-pedidos-data.component.html',
     styleUrl: './peca-pedidos-data.component.scss',

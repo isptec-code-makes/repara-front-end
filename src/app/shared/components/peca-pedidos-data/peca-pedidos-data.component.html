@@ -43,7 +43,11 @@
     <ng-template #body let-rowData let-columns="columns">
         <tr>
             <td *ngFor="let col of columns">
-                {{ rowData[col.field] }}
+                @if (col.field === 'pecaId') {
+                    <app-peca-detail [pecaId]="rowData[col.field]" />
+                } @else {
+                    {{ rowData[col.field] }}
+                }
             </td>
             <td>
                 <!--
